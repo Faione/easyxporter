@@ -14,7 +14,7 @@ import (
 )
 
 type ExporterOpts struct {
-	logger        *logrus.Logger
+	Logger        *logrus.Logger
 	ListenAddress string
 	MetricsPath   string
 	MaxRequests   int
@@ -23,7 +23,7 @@ type ExporterOpts struct {
 
 func Run(opts ExporterOpts) error {
 
-	collector, err := NewEasyCollector(opts.logger)
+	collector, err := NewEasyCollector(opts.Logger)
 	if err != nil {
 		return err
 	}
@@ -34,7 +34,7 @@ func Run(opts ExporterOpts) error {
 	promHandler := promhttp.HandlerFor(
 		rg,
 		promhttp.HandlerOpts{
-			ErrorLog:            opts.logger,
+			ErrorLog:            opts.Logger,
 			MaxRequestsInFlight: opts.MaxRequests,
 		},
 	)
@@ -68,7 +68,7 @@ func Run(opts ExporterOpts) error {
 	})
 
 	eg.Go(func() error {
-		return StartAsyncCollector(ctx, opts.logger)
+		return StartAsyncCollector(ctx, opts.Logger)
 	})
 
 	return eg.Wait()
