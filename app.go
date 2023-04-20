@@ -15,18 +15,19 @@ import (
 
 type ExporterOpts struct {
 	Logger        *logrus.Logger
+	NameSpace     string
 	ListenAddress string
 	MetricsPath   string
 	MaxRequests   int
-	LogLevel      string
 }
 
 func Run(opts ExporterOpts) error {
-
 	collector, err := NewEasyCollector(opts.Logger)
 	if err != nil {
 		return err
 	}
+
+	setNameSpace(opts.NameSpace)
 
 	rg := prometheus.NewRegistry()
 	rg.MustRegister(collector)

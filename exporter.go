@@ -11,7 +11,7 @@ import (
 
 var namespace = "server"
 
-func SetNameSpace(ns string) {
+func setNameSpace(ns string) {
 	namespace = ns
 }
 
