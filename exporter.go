@@ -11,12 +11,12 @@ import (
 
 var namespace = "server"
 
-func setNameSpace(ns string) {
-	namespace = ns
-}
-
 func GetNameSpace() string {
 	return namespace
+}
+
+func setNameSpace(ns string) {
+	namespace = ns
 }
 
 var (
