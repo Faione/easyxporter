@@ -9,9 +9,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/pflag"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sys/unix"
 )
+
+func InjectFlags(fs *pflag.FlagSet) {
+	fs.AddFlagSet(collectorFlags)
+}
 
 type ExporterOpts struct {
 	Logger        *logrus.Logger
@@ -19,15 +24,14 @@ type ExporterOpts struct {
 	ListenAddress string
 	MetricsPath   string
 	MaxRequests   int
+	Filter        []string
 }
 
 func Run(opts ExporterOpts) error {
-	collector, err := NewEasyCollector(opts.Logger)
+	collector, err := newEasyCollector(opts.Logger, opts.NameSpace, opts.Filter...)
 	if err != nil {
 		return err
 	}
-
-	setNameSpace(opts.NameSpace)
 
 	rg := prometheus.NewRegistry()
 	rg.MustRegister(collector)

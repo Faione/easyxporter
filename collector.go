@@ -21,10 +21,6 @@ var (
 	collectorFlags *pflag.FlagSet = &pflag.FlagSet{}
 )
 
-func CollectorFlages() *pflag.FlagSet {
-	return collectorFlags
-}
-
 // 注册collector
 func RegisterCollector(collector string, isDefaultEnabled bool, factory func(logger *logrus.Logger) (Collector, error)) {
 	var helpDefaultState string
@@ -36,7 +32,7 @@ func RegisterCollector(collector string, isDefaultEnabled bool, factory func(log
 
 	flagName := fmt.Sprintf("collector.%s", collector)
 	flagHelp := fmt.Sprintf("Enable the %s collector (default: %s).", collector, helpDefaultState)
-	flag := CollectorFlages().Bool(
+	flag := collectorFlags.Bool(
 		flagName,
 		isDefaultEnabled,
 		flagHelp,
