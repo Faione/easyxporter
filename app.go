@@ -18,6 +18,10 @@ func InjectFlags(fs *pflag.FlagSet) {
 	fs.AddFlagSet(collectorFlags)
 }
 
+func Flags() *pflag.FlagSet {
+	return collectorFlags
+}
+
 type ExporterOpts struct {
 	Logger        *logrus.Logger
 	NameSpace     string
