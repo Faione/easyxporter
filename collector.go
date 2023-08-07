@@ -70,7 +70,7 @@ type AsyncCollector interface {
 	AsyncCollect(ctx context.Context) error
 }
 
-// 开启所有的后台采集器并阻塞知道所有采集器结束
+// 开启所有的后台采集器并阻塞直到所有采集器结束
 func StartAsyncCollector(ctx context.Context, logger *logrus.Logger) error {
 
 	var eg errgroup.Group

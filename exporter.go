@@ -38,6 +38,7 @@ func newEasyCollector(logger *logrus.Logger, namespace string, filters ...string
 		if collector, ok := initiatedCollectors[key]; ok {
 			collectors[key] = collector
 		} else {
+			logger.Debug("init collector: ", key)
 
 			collector, err := factories[key](logger)
 			if err != nil {
@@ -46,7 +47,6 @@ func newEasyCollector(logger *logrus.Logger, namespace string, filters ...string
 			collectors[key] = collector
 			initiatedCollectors[key] = collector
 
-			logger.Debug("init collector: ", key)
 		}
 
 	}
